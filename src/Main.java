@@ -70,6 +70,75 @@ public class Main {
                 }
             }
             System.out.println("Итого: " + total + " руб");//итог
+
+
+            String[] saleProducts = { // Товары по акции
+                    "Сахар",
+                    "Гречка",
+                    "Тушенка",
+            };
+            int[] salePrises = {
+                    80,
+                    60,
+                    40,
+            };
+
+            int[] saleNumb = new int[3];
+
+            System.out.println(System.lineSeparator() + "Список товаров по акции 2 = 3: ");
+            for (int j = 0; j < saleProducts.length; j++) {
+                System.out.println((j + 1) + ". " + saleProducts[j] + " " + salePrises[j] + " руб.ед");
+            }
+
+            int saleOllSum = 0;
+            int saleProductNum = 0;
+            int saleAmount = 0;
+
+            while (true) {
+                System.out.println(System.lineSeparator() + "Выберите товар и количество или введите end");
+                String inputS = scanner.nextLine();//1 2
+                if (inputS.equals("end")) {
+                    break;
+                }
+                String[] parts = input.split(" ");
+
+                if (parts.length != 2) {
+                    System.out.println("Некорректный ввод! Нужно ввести два числа!");
+                    continue;
+                }
+
+                try {
+                    saleProductNum = Integer.parseInt(parts[0]) - 1;
+                    saleAmount = Integer.parseInt(parts[1]);
+                } catch (NumberFormatException e) {
+                    System.out.println("Ошибка. Нужно вводить только числа");
+                    continue;
+                }
+
+                if (saleProductNum < 0 || saleProductNum > 2) {
+                    System.out.println("Ошибка.Нужно выбрать номер продукта из списка");
+                    continue;
+                }
+
+                if (saleAmount == 3) {
+                    saleNumb[saleProductNum] += saleAmount;
+                    int sumS = (saleAmount * salePrises[saleProductNum]) - salePrises[saleProductNum];
+                    saleOllSum += sum;
+                } else {
+                    saleNumb[saleProductNum] += saleAmount;
+                    int sumS = saleAmount * salePrises[saleProductNum];
+                    saleOllSum += sum;
+                }
+            }
+            System.out.println("Ваша корзина: ");
+
+            for (int j = 0; j < saleNumb.length; j++) {
+                if (saleNumb[j] != 0) {
+                    System.out.println(saleProducts[j] + " " + saleNumb[j] + " ед " +
+                            salePrises[j] + " руб.ед " + (saleNumb[j] * salePrises[j]) + " в сумме без скидки");
+                }
+            }
+            System.out.println("Итого (со скидкой): " + saleOllSum + "рублей");
         }
     }
 }
