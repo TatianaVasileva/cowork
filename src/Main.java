@@ -11,7 +11,6 @@ public class Main {
                         "Свекла"
                 };
         int[] price = {70, 400, 40, 88, 20};//интовый массив цена
-        int[] numer = new int[5];//размер массива
         System.out.println("Список продуктов и стоимости единицы:");
         //System.out.println(new Product[]{new Product(70, "Молоко"), new Product(400, "Сыр"),
         //new Product(40, "Хлеб"), new Product(88, "Йогурт"), new Product(20, "Свекла")
@@ -20,9 +19,9 @@ public class Main {
             System.out.println((i + 1) + "." + products[i] + " " + price[i] + " руб.ед");
         }
         int total = 0;
-        int productNum = 0;
+        int productNum;
         int[] yourBasket = new int[products.length];
-        int amount = 0;
+        int amount;
 
         while (true) {
             System.out.println(" Выберите товар и количество или введите end");
@@ -44,23 +43,23 @@ public class Main {
                     continue;
                 }
                 amount = Integer.parseInt(part[1]);
-                if (amount <= 0) {
-                    System.out.println("Ошибка.Количество не может быть меньше 0");
-
+                if (yourBasket[productNum] + amount < 0) { //если введенное количество меньше, чем товара в корзине
+                    System.out.println("Количество товара в корзине не может быть меньше 0");
                     continue;
+                }
+                if (amount == 0) {//если введен 0
+                    total -= (yourBasket[productNum] * price[productNum]);//цена всей корзины минус стоимость товара в ней
+                    yourBasket[productNum] = 0;
+                } else {
+                    yourBasket[productNum] = yourBasket[productNum] + amount;
+                    int sum = amount * price[productNum];
+                    total += sum;
                 }
 
             } catch (NumberFormatException e) { //ячейка в которую положить если ошибка
                 System.out.println("Ошибка. Нужно вводить только числа");
                 continue;
             }
-
-            numer[productNum] += amount;//присвоить
-
-            int sum = amount * price[productNum];//подсчитать
-
-            yourBasket[productNum] = yourBasket[productNum] + amount;//корзина
-            total += sum;//вывод итога
 
             System.out.println("Ваша корзина:");
             for (int m = 0; m < products.length; m++) { //скложить
@@ -69,6 +68,7 @@ public class Main {
                     System.out.println(products[m] + " " + yourBasket[m] + " ед. " + currentPrice + " руб. в сумме");
                 }
             }
+            
             System.out.println("Итого: " + total + " руб");//итог
 
 
